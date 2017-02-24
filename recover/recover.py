@@ -5,6 +5,9 @@ import pandas as pd
 from sklearn import tree
 from zh_segment import *
 import random
+from os import path
+
+RESOURCE = path.join(path.dirname(path.realpath(__file__)), 'resource')
 
 # 1.若为数字， 为数字的值， 若为文字，置为-1
 # 2.是否大于1000，大于为0，小于为1，若不为数字为-1
@@ -134,15 +137,23 @@ def predict_item2(clf1, clf2, clf3, clf4):
                 error_tag[i][j] = 1
 
     # step 2, collect the error cell into the error knowledge base
-    error_knowledge_base = [[raw_data[i][j] for j in range(4) if error_tag[i][j] == 1] for i in range(200)]
-    #TODO here need to segment_phrase(raw_data[i][j]) in the future
+    probability_dic = parse_file(path.join(RESOURCE, 'probability.dic'))
+    flatten = lambda l: [item for sublist in l for item in sublist]
+    seg = lambda x: segment_phrase(x, probability_dic, 0.000001)
+    error_knowledge_base = [flatten(map(seg, [raw_data[i][j] for j in range(4) if error_tag[i][j] == 1]))
+                            for i in range(200)]
 
     # step 3, recover from the error knowledge base
     for i in range(200):  # for each row
         for j in range(4): # for each column
             if error_tag[i][j] == 1:
-                raw_data[i][j] = get_recover_data(model_list[j], error_knowledge_base[i])
-                error_knowledge_base.pop(raw_data[i][j])  # remove the data from knowledge base
+                best_candidate = get_recover_data(model_list[j], error_knowledge_base[i])
+                if best_candidate is not None:
+                    raw_data[i][j] = best_candidate
+                    error_knowledge_base.pop(raw_data[i][j])  # remove the data from knowledge base
+                else:
+                    print "Can not find suitable error test for {}" % str((i, j))
+
 
 
 def get_recover_data(model, knowledge_base):
