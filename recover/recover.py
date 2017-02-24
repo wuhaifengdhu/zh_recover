@@ -162,23 +162,7 @@ def predict_item2(clf1, clf2, clf3, clf4):
                     error_knowledge_base[i].remove(raw_data[i][j])  # remove the data from knowledge base
                 else:
                     print "Can not find suitable error test for (%i, %i)" % (i, j)
-                # try:
-                #     raw_data[i][j] = str(raw_data[i][j]).lower()
-                # except UnicodeEncodeError:
-                #     raw_data[i][j] = unicodedata.normalize('NFKD', str(raw_data[i][j])).encode('ascii', 'ignore')
-                #
-                # # error_knowledge_base[i][j] = str(temp)
-                #     error_knowledge_base[i][j] = raw_data[i][j]
-    print error_knowledge_base
 
-    # # step 3, recover from the error knowledge base
-    for i in range(200):  # for each row
-        for j in range(4):  # for each column
-            if error_tag[i][j] == 1:
-                raw_data[i][j] = get_recover_data(model_list[j], error_knowledge_base[i])
-                # print error_knowledge_base[i]
-                # error_knowledge_base.remove(raw_data[i][j])  # remove the data from knowledge base
-    # print raw_data
     # step 3, write data to output excel
     out_put_excel = os.path.join(os.getcwd(), 'output', 'recover.xls')
     writer = pd.ExcelWriter(out_put_excel, engine='xlsxwriter')
