@@ -1,9 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-
-def hello():
-    print "Hello world!"
+from lib.recover import Recover
 
 
 __title__ = 'zh_recover'
