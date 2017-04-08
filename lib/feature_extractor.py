@@ -1,5 +1,6 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+# -*- coding: iso-8859-1 -*-
+from text_helper import TextHelper
 
 
 class FeatureExtractor(object):
@@ -27,7 +28,7 @@ class FeatureExtractor(object):
 
     @staticmethod
     def _feature4(element):
-        return len(str(element))
+        return TextHelper.get_data_length(element)
 
     @staticmethod
     def _is_pure_digital(element):

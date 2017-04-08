@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+# -*- coding: iso-8859-1 -*-
 from sklearn.cluster import KMeans
 from feature_extractor import FeatureExtractor
 

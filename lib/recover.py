@@ -1,18 +1,12 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-from __future__ import print_function
-from __future__ import print_function
-from __future__ import print_function
-import pandas as pd
-from sklearn import tree
-import unicodedata
-import random
-import os
+# -*- coding: iso-8859-1 -*-
+import sys
 import copy
 from segment_helper import SegmentHelper
 from lib.feature_extractor import FeatureExtractor
 from lib.label_helper import LabelHelper
 from lib.excel_helper import ExcelHelper
+from lib.text_helper import TextHelper
 from sklearn import tree
 
 
@@ -53,9 +47,9 @@ class Recover(object):
     def _collect_error_knowledge_base(self):
         for i in range(self.row_number):
             for j in range(self.column_number):
-                if self.label[j][i] != 0 and len(str(self.raw_data[i, j])) > 0:
+                if self.label[j][i] != 0 and TextHelper.get_data_length(self.raw_data[i, j]) > 0:
                     self.error_base[i].append(self.raw_data[i, j])
-                    self.error_base[i].extend(self.segment.segment(str(self.raw_data[i, j])))
+                    self.error_base[i].extend(self.segment.segment(TextHelper.to_string(self.raw_data[i, j])))
         print(self.error_base)
 
     def _training_model(self):
