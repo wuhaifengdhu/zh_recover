@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+# -*- coding: iso-8859-1 -*-
 import zh_segment
 from subprocess import call
 
@@ -18,7 +18,7 @@ class SegmentHelper(object):
         :param dict_output:  dict output
         :return: None
         """
-        call(['java', '-jar', 'problems.jar', excel_name, dict_output])
+        call(['java', '-jar', 'dic_generate.jar', excel_name, dict_output])
 
     def segment(self, words, probability=0.3):
         if self.user_dict is None:
@@ -28,7 +28,11 @@ class SegmentHelper(object):
 
 
 if __name__ == '__main__':
-    SegmentHelper.generate_user_dict("test.xls", "my.dic")
+    # SegmentHelper.generate_user_dict("test.xls", "my.dic")
+    seg = SegmentHelper("test.xls", "my.dic")
+    for x in seg.segment("ÅÅäÄÄÄÖÖöö English some wordsäää ccc"):
+        print unicode(x)
+
 
 
 
